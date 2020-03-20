@@ -6,46 +6,33 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SecondaServlet extends HttpServlet {
+public class ServletConJSP extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String parametro = req.getParameter("nomeParametro");
-		int limit = Integer.parseInt(req.getParameter("limite"));
-
-		ServletOutputStream outputStream = resp.getOutputStream();
-		outputStream.println("<html>");
-		outputStream.println("<ul>");
-		outputStream.println("<h1>Elenco città " + parametro.toUpperCase() + " </h1>");
+		int limit = Integer.parseInt(req.getParameter("limit"));
 		try {
-			for (String nome : getCity(parametro, limit)) {
-				outputStream.println("<li>" + nome + "</li>");
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+			req.setAttribute("listaCitta", getCity(parametro, limit));
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		outputStream.println("</ul>");
-		outputStream.println("</html>");
+		req.getRequestDispatcher("listaCittà.jsp").forward(req, resp);
 
 	}
 
 	public static List<String> getCity(String country, int limit) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver"); // in questo punto carichia nella JVM in esecuzione la nostra
-													// libreria
-		String password = "password"; // la vostra password
-		String username = "root"; // la vostra username
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		String password = "password";
+		String username = "root";
 		String url = "jdbc:mysql://localhost:3306/world?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
 		Connection connessione = DriverManager.getConnection(url, username, password);
 		PreparedStatement statement = connessione

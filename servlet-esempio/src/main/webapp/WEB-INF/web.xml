@@ -26,5 +26,16 @@
 		<url-pattern>/pallino2</url-pattern>
 	</servlet-mapping>
 
+
+	<servlet>
+		<servlet-name>conJSP</servlet-name>
+		<servlet-class>it.dstech.formazione.servlet.ServletConJSP</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>conJSP</servlet-name>
+		<url-pattern>/habla</url-pattern>
+	</servlet-mapping>
+
 </web-app>
 	
