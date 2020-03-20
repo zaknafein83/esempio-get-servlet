@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -7,15 +8,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Benvenuto nella nostra prima pagina JSP</h1>
+
+<% List<String> countryCode = (List<String>) request.getAttribute("country"); %>
 
 <form action="habla">
   <label for="nomeParametro">Inserisci il CountryCode:</label>
-  <input type="text" id="nomeParametro" name="nomeParametro"><br><br>
+	<select name = "nomeParametro">
+	
+	<% for (String cc : countryCode){%>
+	  <option value="<%=cc %>"><%=cc %></option>
+	  
+	  <% } %>
+	</select>
+	<br>
   <label for="limit">Inserisci quante città vuoi vedere:</label>
-  <input type="number" id="limit" name="limit"><br><br>
+  <input type="number" id="limit" min = "1"  max = "15" name="limit"><br><br>
   <input type="submit" value="Mostra">
 
 </form>
+
+
+
 </body>
 </html>

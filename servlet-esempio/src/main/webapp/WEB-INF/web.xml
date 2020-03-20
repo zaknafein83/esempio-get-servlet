@@ -36,6 +36,29 @@
 		<servlet-name>conJSP</servlet-name>
 		<url-pattern>/habla</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>nuiovoNomeServlet</servlet-name>
+		<servlet-class>it.dstech.formazione.servlet.ServletTre</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>nuiovoNomeServlet</servlet-name>
+		<url-pattern>/instanceOf</url-pattern>
+	</servlet-mapping>
+
+
+
+	<servlet>
+		<servlet-name>scegliCountry</servlet-name>
+		<servlet-class>it.dstech.formazione.servlet.ScegliCountry</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>scegliCountry</servlet-name>
+		<url-pattern>/scegliCountry</url-pattern>
+	</servlet-mapping>
+
 
 </web-app>
 	

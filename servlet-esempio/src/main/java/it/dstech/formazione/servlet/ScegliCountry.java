@@ -14,40 +14,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ServletConJSP extends HttpServlet {
-
+public class ScegliCountry extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String parametro = req.getParameter("nomeParametro");
-		int limit = Integer.parseInt(req.getParameter("limit"));
 		try {
-			List<String> city = getCity(parametro, limit);
-			req.setAttribute("listaCitta", city);
+			List<String> city = geCoutryCode();
+			req.setAttribute("country", city);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		req.getRequestDispatcher("listaCittà.jsp").forward(req, resp);
-
+		req.getRequestDispatcher("scegliCountryCode.jsp").forward(req, resp);
 	}
 
-	public static List<String> getCity(String country, int limit) throws ClassNotFoundException, SQLException {
+	private List<String> geCoutryCode() throws SQLException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		String password = "password";
 		String username = "root";
 		String url = "jdbc:mysql://localhost:3306/world?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false";
 		Connection connessione = DriverManager.getConnection(url, username, password);
 		PreparedStatement statement = connessione
-				.prepareStatement("select * from city where CountryCode =  ? limit ?;");
-		statement.setString(1, country);
-		statement.setInt(2, limit);
+				.prepareStatement("select distinct CountryCode from city");
 		ResultSet risultatoQuery = statement.executeQuery();
 		List<String> elenco = new ArrayList<>();
 		while (risultatoQuery.next()) {
-			String nome = risultatoQuery.getString("Name");
+			String nome = risultatoQuery.getString("CountryCode");
 			elenco.add(nome);
 		}
 		connessione.close();
 		return elenco;
 	}
-
 }
